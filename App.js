@@ -20,7 +20,7 @@ import LoginScreen from './app/screens/LoginScreen';
 import RegisterScreen from './app/screens/RegisterScreen';
 import ListingEditScreen from './app/screens/ListingEditScreen';
 
-const cat =[
+const categories =[
   {label: "Furniture", value: 1},
   {label: "Cars", value: 2},
   {label: "Humans", value: 3},
@@ -28,9 +28,11 @@ const cat =[
 
 export default function App() {
 
-  // const [category, setCategory] = useState(cat[0])
+  // const [category, setCategory] = useState(categories)
 
   return (
-      <MessagesScreen />
+    <Screen>
+      <ListingEditScreen />
+    </Screen>
   )
 }

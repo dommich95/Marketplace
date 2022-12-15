@@ -7,13 +7,13 @@ import Screen from './Screen';
 import { FlatList } from 'react-native-gesture-handler';
 import PickerItem from './PickerItem';
 
-function AppPicker({icon,placeholder,items,onSelectItem, selectedItem}) {
+function AppPicker({icon,placeholder,items,onSelectItem, selectedItem, width = '100%', PickerItemComponent = PickerItem, numberOfColumns= 1 }) {
 const [modalVis, setModalVis] = useState(false)
 
     return (
         <>
             <TouchableWithoutFeedback onPress={() => setModalVis(true)}>
-                <View style={styles.container}>
+                <View style={[styles.container, {width}]}>
                     { icon && <MaterialCommunityIcons name={icon} size={20} color={defaultstyles.colors.medium} style={styles.icon} />}
 
                     {selectedItem ? (
@@ -29,12 +29,15 @@ const [modalVis, setModalVis] = useState(false)
                 <Button title="Close" onPress={() => setModalVis(false)} />
                 <FlatList
                 data={items}
+                numColumns={numberOfColumns}
                 keyExtractor={item => item.value.toString()}
-                renderItem={({item}) => <PickerItem 
-                label={item.label}
-                onPress={() => {
-                    setModalVis(false);
-                    onSelectItem(item)
+                renderItem={({item}) => 
+                <PickerItemComponent 
+                    item = {item}
+                    label={item.label}
+                    onPress={() => {
+                        setModalVis(false);
+                        onSelectItem(item)
                 }}
                 />}
                 />
@@ -48,7 +51,6 @@ const styles = StyleSheet.create({
         backgroundColor: defaultstyles.colors.light,
         borderRadius: 25,
         flexDirection: "row",
-        width: '100%',
         padding:15,
         marginVertical: 10,
     },
