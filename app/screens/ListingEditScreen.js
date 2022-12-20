@@ -5,12 +5,15 @@ import * as Yup from 'yup'
 import {AppForm,AppFormField,AppFormPicker,SubmitButton} from '../components/forms';
 import Screen from '../components/Screen';
 import CategoryItemPicker from '../components/CategoryPickerItem';
+import FormImagePicker from '../components/forms/FormImagePicker';
+import useLocation from '../hooks/useLocation';
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required().min(1).label('Title'),
     price: Yup.number().required().min(1).max(10000).label('Price'),
     description: Yup.string().label('Description'),
-    category: Yup.object().required().nullable().label('Category')
+    category: Yup.object().required().nullable().label('Category'),
+    images: Yup.array().min(1, "Please selcet at least one Image.")
 })
 
 const categories = [
@@ -70,39 +73,55 @@ const categories = [
     },
   ];
 
-function ListingEditScreen(props) {
+  function ListingEditScreen() {
+    const location = useLocation();
+  
     return (
       <Screen style={styles.container}>
-        <AppForm 
-            initialValues={{
-                title: '',
-                price: "",
-                description: "",
-                category: null,
-            }}
-            onSubmit = {(values) => console.log(values)}
-            validationSchema= {validationSchema}
+        <AppForm
+          initialValues={{
+            title: "",
+            price: "",
+            description: "",
+            category: null,
+            images: [],
+          }}
+          onSubmit={(values) => console.log(location)}
+          validationSchema={validationSchema}
         >
-            <AppFormField maxLength={255} name="title" placeholder="Title" />
-            <AppFormField maxLength={8} name="price" placeholder="Price" keyboardType="numeric" width={120} />
-            <AppFormPicker 
-                items={categories}
-                name="category"
-                numberOfColumns={3}
-                PickerItemComponent={CategoryItemPicker}
-                placeholder="Category"
-                width="50%" />
-            <AppFormField maxLength={255} name="description" placeholder="Description" numberOfLines={3} multiline />
-            <SubmitButton title= "Post" /> 
+          <FormImagePicker name="images" />
+          <AppFormField maxLength={255} name="title" placeholder="Title" />
+          <AppFormField
+            keyboardType="numeric"
+            maxLength={8}
+            name="price"
+            placeholder="Price"
+            width={120}
+          />
+          <AppFormPicker
+            items={categories}
+            name="category"
+            numberOfColumns={3}
+            PickerItemComponent={CategoryItemPicker}
+            placeholder="Category"
+            width="50%"
+          />
+          <AppFormField
+            maxLength={255}
+            multiline
+            name="description"
+            numberOfLines={3}
+            placeholder="Description"
+          />
+          <SubmitButton title="Post" />
         </AppForm>
       </Screen>
-      
     );
-}
-const styles = StyleSheet.create({
+  }
+  
+  const styles = StyleSheet.create({
     container: {
-        padding: 10,
-    }
-})
-
-export default ListingEditScreen;
+      padding: 10,
+    },
+  });
+  export default ListingEditScreen;

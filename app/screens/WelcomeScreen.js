@@ -3,9 +3,10 @@ import NativeAccessibilityInfo from 'react-native/Libraries/Components/Accessibi
 import {ImageBackground, StyleSheet,View, Image,Text} from "react-native";
 import AppButton from './ButtonScreen';
 import App from '../../App';
+import routes from '../navigation/routes';
 
 
-function WelcomeScreen(props) {
+function WelcomeScreen({navigation}) {
     return (
         <ImageBackground 
             blurRadius={10}
@@ -17,8 +18,8 @@ function WelcomeScreen(props) {
                 <Text style={style.tagline} >Sell what you don't need</Text> 
             </View>
             <View style={style.buttonContainer}>
-                <AppButton title="Login" />
-                <AppButton title="Register"  color="secondary"/> 
+                <AppButton title="Login" onPress={() => navigation.navigate(routes.LOGIN) } />
+                <AppButton title="Register"  color="secondary" onPress={() => navigation.navigate(routes.REGISTER)} /> 
             </View>
         </ImageBackground>
     );

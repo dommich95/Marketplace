@@ -6,6 +6,7 @@ import colors from '../config/colors';
 import Icon from '../components/Icon';
 import ListItemSeperator from '../components/ListItemSeperator';
 import { color } from 'react-native-reanimated';
+import routes from '../navigation/routes';
 
 const menuItems= [
     {
@@ -20,11 +21,12 @@ const menuItems= [
         icon: {
             name:"email",
             backgroundColor: colors.secondary
-        }
+        },
+        targetScreen: "Messages",
     }
 ]
 
-function AccountScreen(props) {
+function AccountScreen({navigation}) {
     return (
       <Screen style={styles.screen}>
         <View style={styles.container}>
@@ -45,6 +47,7 @@ function AccountScreen(props) {
                 IconComponent={
                     <Icon name={item.icon.name} backgroundColor={item.icon.backgroundColor} />
                 } 
+                onPress={() => navigation.navigate(item.targetScreen) }
                 />
             }
             />
